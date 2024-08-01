@@ -28,6 +28,9 @@ def load_data(zip_file_path, chunk_size=10000):
                 chunk["Block Timestamp"] = pd.to_datetime(chunk["Block Timestamp"])
                 chunk["Price"] = chunk["Price"] / 100000000
 
+                # Convert Volume to numeric, replacing non-numeric values with NaN
+                chunk["Volume"] = pd.to_numeric(chunk["Volume"], errors="coerce")
+
                 # Filter to keep only timestamps with at least 5 sources
                 chunk = chunk.groupby("Block Timestamp").filter(lambda x: len(x) >= 5)
 
